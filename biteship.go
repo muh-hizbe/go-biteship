@@ -5,6 +5,7 @@ import "fmt"
 type Biteship interface {
 	CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, error)
 	GetCourier() (ResponseListCourier, error)
+	GetRatesCouriers(request *RequestCourierRates) (ResponseListRatesCouriers, error)
 }
 
 type BiteshipImpl struct {

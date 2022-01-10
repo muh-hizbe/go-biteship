@@ -10,11 +10,10 @@ import (
 	"reflect"
 )
 
-func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, error) {
-
-	var client = &http.Client{}
-	var resp *ResponseCreateOrder
-	var url = fmt.Sprintf("%s/v1/orders", bite.Config.BiteshipUrl)
+func (bite *BiteshipImpl) GetRatesCouriers(request *RequestCourierRates) (ResponseListRatesCouriers, error) {
+	var client = http.Client{}
+	var resp = ResponseListRatesCouriers{}
+	var url = fmt.Sprintf("%s/v1/rates/couriers", bite.Config.BiteshipUrl)
 	var errMarshal error
 	jsonRequest := []byte("")
 
@@ -32,8 +31,6 @@ func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*Respon
 	req.Header.Add("Authorization", bite.Config.SecretKey)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
-	//req.Header.Add("Biteship-lib", "go")
-	//req.Header.Add("Biteship-lib-ver", "v0")
 
 	response, errRequest := client.Do(req)
 	if errRequest != nil {

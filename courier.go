@@ -14,7 +14,6 @@ func (bite *BiteshipImpl) GetCourier() (ResponseListCourier, error) {
 	var url = fmt.Sprintf("%s/v1/couriers", bite.Config.BiteshipUrl)
 
 	req, _ := http.NewRequest("GET", url, nil)
-	//req.SetBasicAuth(bite.Config.SecretKey, "")
 	req.Header.Add("Authorization", bite.Config.SecretKey)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")

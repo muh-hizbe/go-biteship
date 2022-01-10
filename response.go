@@ -55,6 +55,64 @@ type ResponseCreateOrder struct {
 	Status      string        `json:"status"`
 }
 
+//	RATES COURIER
+type PricingRate struct {
+	Company               string `json:"company"`
+	CourierName           string `json:"courier_name"`
+	CourierCode           string `json:"courier_code"`
+	CourierServiceName    string `json:"courier_service_name"`
+	CourierServiceCode    string `json:"courier_service_code"`
+	Type                  string `json:"type"`
+	Description           string `json:"description"`
+	Duration              string `json:"duration"`
+	ShipmentDurationRange string `json:"shipment_duration_range"`
+	ShipmentDurationUnit  string `json:"shipment_duration_unit"`
+	ServiceType           string `json:"service_type"`
+	ShippingType          string `json:"shipping_type"`
+	Price                 uint   `json:"price"`
+}
+
+type OriginRate struct {
+	Latitude                         float64 `json:"latitude"`
+	Longitude                        float64 `json:"longitude"`
+	PostalCode                       uint    `json:"postal_code"`
+	CountryName                      string  `json:"country_name"`
+	CountryCode                      string  `json:"country_code"`
+	AdministrativeDivisionLevel1Name string  `json:"administrative_division_level_1_name"`
+	AdministrativeDivisionLevel1Type string  `json:"administrative_division_level_1_type"`
+	AdministrativeDivisionLevel2Name string  `json:"administrative_division_level_2_name"`
+	AdministrativeDivisionLevel2Type string  `json:"administrative_division_level_2_type"`
+	AdministrativeDivisionLevel3Name string  `json:"administrative_division_level_3_name"`
+	AdministrativeDivisionLevel3Type string  `json:"administrative_division_level_3_type"`
+	AdministrativeDivisionLevel4Name string  `json:"administrative_division_level_4_name"`
+	AdministrativeDivisionLevel4Type string  `json:"administrative_division_level_4_type"`
+}
+
+type DestinationRate struct {
+	Latitude                         float64 `json:"latitude"`
+	Longitude                        float64 `json:"longitude"`
+	PostalCode                       uint    `json:"postal_code"`
+	CountryName                      string  `json:"country_name"`
+	CountryCode                      string  `json:"country_code"`
+	AdministrativeDivisionLevel1Name string  `json:"administrative_division_level_1_name"`
+	AdministrativeDivisionLevel1Type string  `json:"administrative_division_level_1_type"`
+	AdministrativeDivisionLevel2Name string  `json:"administrative_division_level_2_name"`
+	AdministrativeDivisionLevel2Type string  `json:"administrative_division_level_2_type"`
+	AdministrativeDivisionLevel3Name string  `json:"administrative_division_level_3_name"`
+	AdministrativeDivisionLevel3Type string  `json:"administrative_division_level_3_type"`
+	AdministrativeDivisionLevel4Name string  `json:"administrative_division_level_4_name"`
+	AdministrativeDivisionLevel4Type string  `json:"administrative_division_level_4_type"`
+}
+
+type ResponseListRatesCouriers struct {
+	Success     bool            `json:"success"`
+	Message     string          `json:"message"`
+	Origin      OriginRate      `json:"origin"`
+	Destination DestinationRate `json:"destination"`
+	Pricing     []PricingRate   `json:"pricing"`
+}
+
+//	COURIER
 type ResponseCourier struct {
 	AvailableForCashOnDelivery   bool   `json:"available_for_cash_on_delivery"`
 	AvailableForProofOfDelivery  bool   `json:"available_for_proof_of_delivery"`
@@ -77,6 +135,7 @@ type ResponseListCourier struct {
 	Couriers []ResponseCourier `json:"couriers"`
 }
 
+//	API RESPONSE
 type ApiResponse struct {
 	Status     string // e.g. "200 OK"
 	StatusCode int    // e.g. 200

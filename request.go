@@ -43,8 +43,8 @@ type CreateOrderRequestParam struct {
 	DestinationPostalCode         uint       `json:"destination_postal_code"`
 	DestinationNote               string     `json:"destination_note"`
 	DestinationCoordinate         Coordinate `json:"destination_coordinate"`
-	DestinationCashOnDelivery     uint       `json:"destination_cash_on_delivery"` // Optional
-	DestinationCashOnDeliveryType string     `json:"destination_cash_on_delivery_type"`
+	DestinationCashOnDelivery     *uint      `json:"destination_cash_on_delivery"` // Optional
+	DestinationCashOnDeliveryType *string    `json:"destination_cash_on_delivery_type"`
 
 	//	COURIER DATA
 	CourierCompany   string `json:"courier_company"`
@@ -61,4 +61,25 @@ type CreateOrderRequestParam struct {
 	Metadata    Metadata `json:"metadata"` // Optional
 
 	Items []ProductItem `json:"items"`
+}
+
+type ItemCourierRate struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Value       uint   `json:"value"`
+	Length      uint   `json:"length"`
+	Width       uint   `json:"width"`
+	Height      uint   `json:"height"`
+	Weight      uint   `json:"weight"`
+	Quantity    uint   `json:"quantity"`
+}
+type RequestCourierRates struct {
+	OriginLatitude        float64           `json:"origin_latitude"`
+	OriginLongitude       float64           `json:"origin_longitude"`
+	DestinationLatitude   float64           `json:"destination_latitude"`
+	DestinationLongitude  float64           `json:"destination_longitude"`
+	OriginPostalCode      uint              `json:"origin_postal_code"`
+	DestinationPostalCode uint              `json:"destination_postal_code"`
+	Couriers              string            `json:"couriers"`
+	Items                 []ItemCourierRate `json:"items"`
 }
