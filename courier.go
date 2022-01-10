@@ -1,40 +1,23 @@
 package biteship
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"reflect"
 )
 
-func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, error) {
+func (bite *BiteshipImpl) GetCourier() (ResponseListCourier, error) {
+	var client = http.Client{}
+	var resp = ResponseListCourier{}
+	var url = fmt.Sprintf("%s/v1/couriers", bite.Config.BiteshipUrl)
 
-	var client = &http.Client{}
-	var resp *ResponseCreateOrder
-	var url = fmt.Sprintf("%s/v1/orders", bite.Config.BiteshipUrl)
-	var errMarshal error
-	jsonRequest := []byte("")
-
-	isParamsNil := reflect.ValueOf(request).Kind() == reflect.Ptr && reflect.ValueOf(request).IsNil()
-
-	if !isParamsNil {
-		jsonRequest, errMarshal = json.Marshal(request)
-		if errMarshal != nil {
-			log.Println(errMarshal)
-			return resp, errMarshal
-		}
-	}
-
-	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonRequest))
+	req, _ := http.NewRequest("GET", url, nil)
 	//req.SetBasicAuth(bite.Config.SecretKey, "")
 	req.Header.Add("Authorization", bite.Config.SecretKey)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
-	//req.Header.Add("Biteship-lib", "go")
-	//req.Header.Add("Biteship-lib-ver", "v0")
 
 	response, errRequest := client.Do(req)
 	if errRequest != nil {

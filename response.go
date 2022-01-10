@@ -55,6 +55,28 @@ type ResponseCreateOrder struct {
 	Status      string        `json:"status"`
 }
 
+type ResponseCourier struct {
+	AvailableForCashOnDelivery   bool   `json:"available_for_cash_on_delivery"`
+	AvailableForProofOfDelivery  bool   `json:"available_for_proof_of_delivery"`
+	AvailableForInstantWaybillId bool   `json:"available_for_instant_waybill_id"`
+	CourierName                  string `json:"courier_name"`
+	CourierCode                  string `json:"courier_code"`
+	CourierServiceName           string `json:"courier_service_name"`
+	CourierServiceCode           string `json:"courier_service_code"`
+	Tier                         string `json:"tier"`
+	Description                  string `json:"description"`
+	ServiceType                  string `json:"service_type"`
+	ShippingType                 string `json:"shipping_type"`
+	ShipmentDurationRange        string `json:"shipment_duration_range"`
+	ShipmentDurationUnit         string `json:"shipment_duration_unit"`
+}
+
+type ResponseListCourier struct {
+	Success  bool              `json:"success"`
+	Object   string            `json:"object"`
+	Couriers []ResponseCourier `json:"couriers"`
+}
+
 type ApiResponse struct {
 	Status     string // e.g. "200 OK"
 	StatusCode int    // e.g. 200

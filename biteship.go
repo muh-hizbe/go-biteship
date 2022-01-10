@@ -3,7 +3,8 @@ package biteship
 import "fmt"
 
 type Biteship interface {
-	CreateOrder(request *RequestParam) (*ResponseCreateOrder, error)
+	CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, error)
+	GetCourier() (ResponseListCourier, error)
 }
 
 type BiteshipImpl struct {

@@ -20,7 +20,7 @@ type ProductItem struct {
 	Weight      uint        `json:"weight"`
 }
 
-type RequestParam struct {
+type CreateOrderRequestParam struct {
 	//	SENDER SHIPPER DATA
 	ShipperContactName  string `json:"shipper_contact_name"`
 	ShipperContactPhone string `json:"shipper_contact_phone"`
