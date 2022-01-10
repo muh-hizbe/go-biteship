@@ -9,10 +9,6 @@ type ConfigOption struct {
 	BiteshipUrl string
 }
 
-//var Config ConfigOption = ConfigOption{
-//	BiteshipUrl: DEFAULT_BITESHIP_URL,
-//}
-
 func DefaultConfig(secretKey string) *ConfigOption {
 	return &ConfigOption{
 		SecretKey:   secretKey,

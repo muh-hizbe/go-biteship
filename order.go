@@ -10,7 +10,7 @@ import (
 	"reflect"
 )
 
-func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, error) {
+func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, *Error) {
 
 	var client = &http.Client{}
 	var resp *ResponseCreateOrder
@@ -24,7 +24,7 @@ func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*Respon
 		jsonRequest, errMarshal = json.Marshal(request)
 		if errMarshal != nil {
 			log.Println(errMarshal)
-			return resp, errMarshal
+			return resp, ErrorGo(errMarshal)
 		}
 	}
 
@@ -38,14 +38,14 @@ func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*Respon
 	response, errRequest := client.Do(req)
 	if errRequest != nil {
 		log.Println(errRequest)
-		return resp, errRequest
+		return resp, ErrorGo(errRequest)
 	}
 	defer response.Body.Close()
 
 	respBody, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Println(err)
-		return resp, err
+		return resp, ErrorGo(err)
 	}
 
 	fmt.Printf("status %d", response.StatusCode)
@@ -54,7 +54,7 @@ func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*Respon
 	errUnmarshal := json.Unmarshal(respBody, &resp)
 	if errUnmarshal != nil {
 		log.Println(errUnmarshal)
-		return resp, errUnmarshal
+		return resp, ErrorGo(errUnmarshal)
 	}
 
 	return resp, nil

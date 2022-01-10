@@ -23,7 +23,7 @@ func (e *Error) GetStatus() int {
 
 func ErrorGo(err error) *Error {
 	return &Error{
-		Status:    http.StatusTeapot,
+		Status:    http.StatusInternalServerError,
 		ErrorCode: "Error Go",
 		Message:   err.Error(),
 	}

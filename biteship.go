@@ -1,15 +1,14 @@
 package biteship
 
-import "fmt"
-
 type Biteship interface {
-	CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, error)
-	GetCourier() (ResponseListCourier, error)
-	GetRatesCouriers(request *RequestCourierRates) (ResponseListRatesCouriers, error)
+	CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, *Error)
+	GetCourier() (*ResponseListCourier, *Error)
+	GetRatesCouriers(request *RequestCourierRates) (*ResponseListRatesCouriers, *Error)
 }
 
 type BiteshipImpl struct {
-	Config *ConfigOption
+	Config      *ConfigOption
+	HttpRequest *HttpRequestImpl
 }
 
 func New(key string, config ...ConfigOption) Biteship {
@@ -20,7 +19,7 @@ func New(key string, config ...ConfigOption) Biteship {
 		defaultConfig.SecretKey = key
 	}
 
-	fmt.Println(defaultConfig)
+	//fmt.Println(defaultConfig)
 
 	return &BiteshipImpl{
 		Config: defaultConfig,
