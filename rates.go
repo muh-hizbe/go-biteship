@@ -10,6 +10,7 @@ import (
 )
 
 func (bite *BiteshipImpl) GetRatesCouriers(request *RequestCourierRates) (*ResponseListRatesCouriers, *Error) {
+
 	var resp = &ResponseListRatesCouriers{}
 	var url = fmt.Sprintf("%s/v1/rates/couriers", bite.Config.BiteshipUrl)
 

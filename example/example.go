@@ -109,8 +109,8 @@ func main() {
 		DestinationLongitude: 106.783529000,
 		OriginPostalCode:     12440,
 		//DestinationPostalCode: 12240,
-		Couriers: "jne,tiki",
-		Items:    items,
+		//Couriers: "jne,tiki",
+		Items: items,
 	}
 
 	resp, err := biteshipApp.GetRatesCouriers(&req)
