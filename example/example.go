@@ -23,10 +23,10 @@ func main() {
 	//	Description: "White Shirt",
 	//	Value:       165000,
 	//	Quantity:    1,
-	//	Height:      10,
-	//	Length:      10,
-	//	Weight:      200,
-	//	Width:       10,
+	//	Height:      0,
+	//	Length:      0,
+	//	Width:       0,
+	//	Weight:      0,
 	//})
 	//
 	//req := biteship.CreateOrderRequestParam{
@@ -85,33 +85,35 @@ func main() {
 	//	CancellationReason *string `json:"cancellation_reason"`
 	//}{}
 	//*reason.CancellationReason = "Ingin mengganti kurir"
-	var reason string
-	reason = "Ingin mengganti kurir"
-	resp, err := biteshipApp.CancelOrder("61DBB6B1A4720916B2D1F576", reason)
+	//var reason string
+	//reason = "Ingin mengganti kurir"
+	//resp, err := biteshipApp.CancelOrder("61DBB6B1A4720916B2D1F576", reason)
 
 	//	CHECK RATES OF COURIER
-	//var items []biteship.ItemCourierRate
-	//items = append(items, biteship.ItemCourierRate{
-	//	Name:        "Shoes",
-	//	Description: "Black colored size 45",
-	//	Value:       199000,
-	//	Length:      30,
-	//	Width:       15,
-	//	Height:      20,
-	//	Weight:      200,
-	//	Quantity:    2,
-	//})
-	//
-	//req := biteship.RequestCourierRates{
-	//	OriginLatitude:       -6.3031123,
-	//	OriginLongitude:      106.7794934999,
-	//	DestinationLatitude:  -6.2441792,
-	//	DestinationLongitude: 106.783529000,
-	//	Couriers:             "grab,jne,tiki",
-	//	Items:                items,
-	//}
-	//
-	//resp, err := biteshipApp.GetRatesCouriers(&req)
+	var items []biteship.ItemCourierRate
+	items = append(items, biteship.ItemCourierRate{
+		Name:        "Shoes",
+		Description: "Black colored size 45",
+		Value:       199000,
+		Length:      30,
+		Width:       15,
+		Height:      20,
+		Weight:      200,
+		Quantity:    2,
+	})
+
+	req := biteship.RequestCourierRates{
+		//OriginLatitude:       -6.3031123,
+		//OriginLongitude:      106.7794934999,
+		DestinationLatitude:  -6.2441792,
+		DestinationLongitude: 106.783529000,
+		OriginPostalCode:     12440,
+		//DestinationPostalCode: 12240,
+		Couriers: "jne,tiki",
+		Items:    items,
+	}
+
+	resp, err := biteshipApp.GetRatesCouriers(&req)
 
 	if err != nil {
 		log.Println("error :: ", err)

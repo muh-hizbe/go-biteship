@@ -8,16 +8,16 @@ type Coordinate struct {
 }
 
 type ProductItem struct {
-	Id          interface{} `json:"id"`
-	Name        string      `json:"name"`
-	Description string      `json:"description"`
-	Image       string      `json:"image"`
-	Value       uint        `json:"value"`
-	Quantity    uint        `json:"quantity"`
-	Height      uint        `json:"height"`
-	Width       uint        `json:"width"`
-	Length      uint        `json:"length"`
-	Weight      uint        `json:"weight"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Image       string `json:"image"`
+	Value       uint   `json:"value"`
+	Quantity    uint   `json:"quantity"`
+	Height      uint   `json:"height"`
+	Width       uint   `json:"width"`
+	Length      uint   `json:"length"`
+	Weight      uint   `json:"weight"`
 }
 
 type CreateOrderRequestParam struct {
@@ -47,16 +47,16 @@ type CreateOrderRequestParam struct {
 	DestinationCashOnDeliveryType *string    `json:"destination_cash_on_delivery_type"`
 
 	//	COURIER DATA
-	CourierCompany   string `json:"courier_company"`
-	CourierType      string `json:"courier_type"`
+	CourierCompany   string `json:"courier_company" binding:"required"`
+	CourierType      string `json:"courier_type" binding:"required"`
 	CourierInsurance uint   `json:"courier_insurance"`
 
 	//	DELIVERY TIME DATA
-	DeliveryType string `json:"delivery_type"` // "later" or "now"
-	DeliveryDate string `json:"delivery_date"` // yyyy-mm-dd
-	DeliveryTime string `json:"delivery_time"` // hh:mm
+	DeliveryType string `json:"delivery_type" binding:"required"` // "later" or "now"
+	DeliveryDate string `json:"delivery_date"`                    // yyyy-mm-dd
+	DeliveryTime string `json:"delivery_time"`                    // hh:mm
 
-	PaymentType string   `json:"payment_type"` // Set to be 'online'
+	PaymentType string   `json:"payment_type" binding:"required"` // Set to be 'online'
 	OrderNote   string   `json:"order_note"`
 	Metadata    Metadata `json:"metadata"` // Optional
 
@@ -74,12 +74,12 @@ type ItemCourierRate struct {
 	Quantity    uint   `json:"quantity"`
 }
 type RequestCourierRates struct {
-	OriginLatitude        float64           `json:"origin_latitude" binding:"required"`
-	OriginLongitude       float64           `json:"origin_longitude" binding:"required"`
-	DestinationLatitude   float64           `json:"destination_latitude" binding:"required"`
-	DestinationLongitude  float64           `json:"destination_longitude" binding:"required"`
-	OriginPostalCode      uint              `json:"origin_postal_code"`
-	DestinationPostalCode uint              `json:"destination_postal_code"`
+	OriginLatitude        float64           `json:"origin_latitude,omitempty"`
+	OriginLongitude       float64           `json:"origin_longitude,omitempty"`
+	DestinationLatitude   float64           `json:"destination_latitude,omitempty"`
+	DestinationLongitude  float64           `json:"destination_longitude,omitempty"`
+	OriginPostalCode      uint              `json:"origin_postal_code,omitempty"`
+	DestinationPostalCode uint              `json:"destination_postal_code,omitempty"`
 	Couriers              string            `json:"couriers" binding:"required"` // "grab, gojek, jne, tiki, jet, jnt, sicepat, wahana, pos, lion, ninja, anteraja, rpx, paxel, mrspeedy, lalamove, deliveree, sap"
 	Items                 []ItemCourierRate `json:"items"`
 }
