@@ -176,6 +176,36 @@ type ResponseListCourier struct {
 	Couriers []ResponseCourier `json:"couriers"`
 }
 
+//	TRACKING
+type ResponseTrackingOrder struct {
+	Success   string `json:"success"`
+	Message   string `json:"message"`
+	Object    string `json:"object"`
+	Id        string `json:"id"`
+	WaybillId string `json:"waybill_id"`
+	Courier   struct {
+		Company string  `json:"company"`
+		Name    *string `json:"name"`
+		Phone   *string `json:"phone"`
+	} `json:"courier"`
+	Origin struct {
+		ContactName string `json:"contact_name"`
+		Address     string `json:"address"`
+	} `json:"origin"`
+	Destination struct {
+		ContactName string `json:"contact_name"`
+		Address     string `json:"address"`
+	}
+	History []struct {
+		Note      string `json:"note"`
+		Status    string `json:"status"`
+		UpdatedAt string `json:"updated_at"`
+	} `json:"history"`
+	Link    string  `json:"link"`
+	OrderId *string `json:"order_id"`
+	Status  string  `json:"status"`
+}
+
 //	API RESPONSE
 type ApiResponse struct {
 	Status     string // e.g. "200 OK"
