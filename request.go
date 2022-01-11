@@ -80,7 +80,7 @@ type RequestCourierRates struct {
 	DestinationLongitude  float64           `json:"destination_longitude" binding:"required"`
 	OriginPostalCode      uint              `json:"origin_postal_code"`
 	DestinationPostalCode uint              `json:"destination_postal_code"`
-	Couriers              string            `json:"couriers" binding:"required"`
+	Couriers              string            `json:"couriers" binding:"required"` // "grab, gojek, jne, tiki, jet, jnt, sicepat, wahana, pos, lion, ninja, anteraja, rpx, paxel, mrspeedy, lalamove, deliveree, sap"
 	Items                 []ItemCourierRate `json:"items"`
 }
 
