@@ -1,5 +1,9 @@
 package biteship
 
+import "github.com/go-playground/validator/v10"
+
+var validate *validator.Validate
+
 type Biteship interface {
 	GetCourier() (*ResponseListCourier, *Error)
 	GetRatesCouriers(request *RequestCourierRates) (*ResponseListRatesCouriers, *Error)

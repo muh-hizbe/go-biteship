@@ -29,6 +29,15 @@ func ErrorGo(err error) *Error {
 	}
 }
 
+func ErrorRequestParam(err error) *Error {
+	return &Error{
+		Status:    http.StatusBadRequest,
+		ErrorCode: "Bad Request",
+		Message:   err.Error(),
+		RawError:  err,
+	}
+}
+
 func ErrorHttp(status int, respBody []byte) *Error {
 	var httpError *Error
 	if err := json.Unmarshal(respBody, &httpError); err != nil {

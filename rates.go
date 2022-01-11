@@ -4,12 +4,18 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"log"
 	"net/http"
 	"reflect"
 )
 
 func (bite *BiteshipImpl) GetRatesCouriers(request *RequestCourierRates) (*ResponseListRatesCouriers, *Error) {
+	validate = validator.New()
+	errValidate := validate.Struct(request)
+	if errValidate != nil {
+		return nil, ErrorRequestParam(errValidate)
+	}
 
 	var resp = &ResponseListRatesCouriers{}
 	var url = fmt.Sprintf("%s/v1/rates/couriers", bite.Config.BiteshipUrl)
@@ -23,13 +29,13 @@ func (bite *BiteshipImpl) GetRatesCouriers(request *RequestCourierRates) (*Respo
 		jsonRequest, errMarshal = json.Marshal(request)
 		if errMarshal != nil {
 			log.Println(errMarshal)
-			return resp, ErrorGo(errMarshal)
+			return nil, ErrorGo(errMarshal)
 		}
 	}
 
 	errRequest := bite.HttpRequest.Call(http.MethodPost, url, bite.Config.SecretKey, bytes.NewBuffer(jsonRequest), resp)
 	if errRequest != nil {
-		return resp, errRequest
+		return nil, errRequest
 	}
 
 	return resp, nil
