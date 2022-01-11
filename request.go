@@ -52,7 +52,7 @@ type CreateOrderRequestParam struct {
 	CourierInsurance uint   `json:"courier_insurance"`
 
 	//	DELIVERY TIME DATA
-	DeliveryType string `json:"delivery_type"`
+	DeliveryType string `json:"delivery_type"` // "later" or "now"
 	DeliveryDate string `json:"delivery_date"` // yyyy-mm-dd
 	DeliveryTime string `json:"delivery_time"` // hh:mm
 
@@ -74,13 +74,13 @@ type ItemCourierRate struct {
 	Quantity    uint   `json:"quantity"`
 }
 type RequestCourierRates struct {
-	OriginLatitude        float64           `json:"origin_latitude"`
-	OriginLongitude       float64           `json:"origin_longitude"`
-	DestinationLatitude   float64           `json:"destination_latitude"`
-	DestinationLongitude  float64           `json:"destination_longitude"`
+	OriginLatitude        float64           `json:"origin_latitude" binding:"required"`
+	OriginLongitude       float64           `json:"origin_longitude" binding:"required"`
+	DestinationLatitude   float64           `json:"destination_latitude" binding:"required"`
+	DestinationLongitude  float64           `json:"destination_longitude" binding:"required"`
 	OriginPostalCode      uint              `json:"origin_postal_code"`
 	DestinationPostalCode uint              `json:"destination_postal_code"`
-	Couriers              string            `json:"couriers"`
+	Couriers              string            `json:"couriers" binding:"required"`
 	Items                 []ItemCourierRate `json:"items"`
 }
 
