@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"reflect"
@@ -12,8 +11,7 @@ import (
 
 func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, *Error) {
 
-	var client = &http.Client{}
-	var resp *ResponseCreateOrder
+	resp := &ResponseCreateOrder{}
 	var url = fmt.Sprintf("%s/v1/orders", bite.Config.BiteshipUrl)
 	var errMarshal error
 	jsonRequest := []byte("")
@@ -28,33 +26,9 @@ func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*Respon
 		}
 	}
 
-	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonRequest))
-	req.Header.Add("Authorization", bite.Config.SecretKey)
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Accept", "application/json")
-	//req.Header.Add("Biteship-lib", "go")
-	//req.Header.Add("Biteship-lib-ver", "v0")
-
-	response, errRequest := client.Do(req)
+	errRequest := bite.HttpRequest.Call(http.MethodPost, url, bite.Config.SecretKey, bytes.NewBuffer(jsonRequest), resp)
 	if errRequest != nil {
-		log.Println(errRequest)
-		return resp, ErrorGo(errRequest)
-	}
-	defer response.Body.Close()
-
-	respBody, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		log.Println(err)
-		return resp, ErrorGo(err)
-	}
-
-	fmt.Printf("status %d", response.StatusCode)
-	fmt.Printf("data %s", respBody)
-
-	errUnmarshal := json.Unmarshal(respBody, &resp)
-	if errUnmarshal != nil {
-		log.Println(errUnmarshal)
-		return resp, ErrorGo(errUnmarshal)
+		return resp, errRequest
 	}
 
 	return resp, nil
