@@ -1,9 +1,13 @@
 package biteship
 
 type Biteship interface {
-	CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, *Error)
 	GetCourier() (*ResponseListCourier, *Error)
 	GetRatesCouriers(request *RequestCourierRates) (*ResponseListRatesCouriers, *Error)
+	CreateOrder(request *CreateOrderRequestParam) (*ResponseCreateOrder, *Error)
+	RetrieveOrder(orderId string) (*ResponseRetrieveOrder, *Error)
+	UpdateOrder(orderId string, request interface{}) (*ResponseCreateOrder, *Error)
+	ConfirmOrder(orderId string) (*ResponseCreateOrder, *Error)
+	CancelOrder(orderId string, reason string) (*ResponseCancelOrder, *Error)
 }
 
 type BiteshipImpl struct {

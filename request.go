@@ -83,3 +83,7 @@ type RequestCourierRates struct {
 	Couriers              string            `json:"couriers"`
 	Items                 []ItemCourierRate `json:"items"`
 }
+
+type ReasonRequest struct {
+	CancellationReason string `json:"cancellation_reason"`
+}

@@ -26,7 +26,8 @@ type Destination struct {
 	ContactName  string     `json:"contact_name"`
 	ContactPhone string     `json:"contact_phone"`
 	ContactEmail string     `json:"contact_email"`
-	Address      string     `json:"address"`
+	Address      string     `json:"address,omitempty"`
+	Location     string     `json:"location,omitempty"`
 	Note         string     `json:"note"`
 }
 
@@ -38,6 +39,13 @@ type Courier struct {
 	Phone      *string `json:"phone"`
 	Type       string  `json:"type"`
 	Link       *string `json:"link"`
+	Status     *string `json:"status,omitempty"`
+	History    []struct {
+		ServiceType string `json:"service_type"`
+		Status      string `json:"status"`
+		Note        string `json:"note"`
+		UpdatedAt   string `json:"updated_at"`
+	} `json:"history,omitempty"`
 }
 
 type ResponseCreateOrder struct {
@@ -53,6 +61,39 @@ type ResponseCreateOrder struct {
 	Price       uint          `json:"price"`
 	Note        string        `json:"note"`
 	Status      string        `json:"status"`
+}
+
+type Delivery struct {
+	Type     string  `json:"type"`
+	Datetime string  `json:"datetime"`
+	Note     *string `json:"note"`
+}
+
+//	RESPONSE RETRIEVE ORDER
+type ResponseRetrieveOrder struct {
+	Success     bool          `json:"success"`
+	Message     string        `json:"message"`
+	Object      string        `json:"object"`
+	Id          string        `json:"id"`
+	Shipper     Shipper       `json:"shipper"`
+	Origin      Origin        `json:"origin"`
+	Delivery    Delivery      `json:"delivery"`
+	Destination Destination   `json:"destination"`
+	Courier     Courier       `json:"courier"`
+	Items       []ProductItem `json:"items"`
+	Price       uint          `json:"price"`
+	Note        string        `json:"note"`
+	Status      string        `json:"status"`
+}
+
+// CANCEL ORDER
+type ResponseCancelOrder struct {
+	Success            bool   `json:"success"`
+	Message            string `json:"message"`
+	Object             string `json:"object"`
+	Id                 string `json:"id"`
+	Status             string `json:"status"`
+	CancellationReason string `json:"cancellation_reason"`
 }
 
 //	RATES COURIER
