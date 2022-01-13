@@ -7,9 +7,11 @@ import (
 )
 
 func main() {
-	//biteshipApp := biteship.New("biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzLWRldiIsInVzZXJJZCI6IjYxNjQzYmJiNzRkYWMxMzdjMDIyMjUxYyIsImlhdCI6MTYzMzk1ODk0N30.FpL4PHEikpRgNTtjXYMD85MmK35rCc0WX79n06794T4")
-	biteshipApp := biteship.New("biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzLXBrZyIsInVzZXJJZCI6IjYxNjQzYmJiNzRkYWMxMzdjMDIyMjUxYyIsImlhdCI6MTY0MTc3OTY0Nn0.LA2Opjs1wNTHeSLDAZpD3W9CqMoMfZvAkOhvSYfIftk")
-	//biteshipService := biteship.New("somesecret")
+	//	CHANGE WITH YOUR SECRET KEY
+	secretKey := "biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzLXBrZyIsInVzZXJJZCI6IjYxNjQzYmJiNzRkYWMxMzdjMDIyMjUxYyIsImlhdCI6MTY0MTc3OTY0Nn0.LA2Opjs1wNTHeSLDAZpD3W9CqMoMfZvAkOhvSYfIftk"
+	biteshipApp := biteship.New(secretKey)
+
+	//	UNCOMMENT CODE THAT YOU'LL BE USE AND COMMENT WHEN UNUSED
 
 	//	GET LIST COURIER
 	//resp, err := biteshipApp.GetCourier()
@@ -81,10 +83,6 @@ func main() {
 	//resp, err := biteshipApp.ConfirmOrder("61DBB6B1A4720916B2D1F576")
 
 	//	CANCEL ORDER
-	//reason := struct {
-	//	CancellationReason *string `json:"cancellation_reason"`
-	//}{}
-	//*reason.CancellationReason = "Ingin mengganti kurir"
 	//var reason string
 	//reason = "Ingin mengganti kurir"
 	//resp, err := biteshipApp.CancelOrder("61DBB6B1A4720916B2D1F576", reason)

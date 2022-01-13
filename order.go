@@ -119,7 +119,7 @@ func (bite *BiteshipImpl) CancelOrder(orderId string, reason string) (*ResponseC
 	if errRequest != nil {
 		return resp, errRequest
 	}
-	log.Println(bytes.NewBuffer(jsonRequest))
+	//log.Println(bytes.NewBuffer(jsonRequest))
 
 	return resp, nil
 }
