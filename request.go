@@ -13,10 +13,10 @@ type ProductItem struct {
 	Description string `json:"description"`
 	Image       string `json:"image"`
 	Value       uint   `json:"value"`
-	Quantity    uint   `json:"quantity"`
-	Height      uint   `json:"height"`
-	Width       uint   `json:"width"`
-	Length      uint   `json:"length"`
+	Quantity    uint   `json:"quantity" validate:"gte=1"`
+	Height      uint   `json:"height" validate:"gte=1"`
+	Width       uint   `json:"width" validate:"gte=1"`
+	Length      uint   `json:"length" validate:"gte=1"`
 	Weight      uint   `json:"weight"`
 }
 

@@ -59,7 +59,7 @@ func (client *HttpRequestImpl) Call(method string, url string, secretKey string,
 		return &Error{
 			Status:   http.StatusInternalServerError,
 			Message:  "Cannot create request",
-			RawError: errNewReq,
+			RawError: errNewReq.Error(),
 		}
 	}
 
@@ -90,7 +90,9 @@ func (client *HttpRequestImpl) doRequest(req *http.Request, result interface{}) 
 		return ErrorGo(errRead)
 	}
 
-	//log.Println("resp body :: ", respBody)
+	if response.StatusCode < 200 || response.StatusCode > 299 {
+		return ErrorHttp(response.StatusCode, respBody)
+	}
 
 	errUnmarshall := json.Unmarshal(respBody, &result)
 	if errUnmarshall != nil {

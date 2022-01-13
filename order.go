@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"io"
 	"log"
 	"net/http"
@@ -16,6 +17,12 @@ func (bite *BiteshipImpl) CreateOrder(request *CreateOrderRequestParam) (*Respon
 	var url = fmt.Sprintf("%s/v1/orders", bite.Config.BiteshipUrl)
 	var errMarshal error
 	jsonRequest := []byte("")
+
+	validate = validator.New()
+	errValidate := validate.Struct(request)
+	if errValidate != nil {
+		return resp, ErrorRequestParam(errValidate)
+	}
 
 	isParamsNil := reflect.ValueOf(request).Kind() == reflect.Ptr && reflect.ValueOf(request).IsNil()
 

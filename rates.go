@@ -11,13 +11,14 @@ import (
 )
 
 func (bite *BiteshipImpl) GetRatesCouriers(request *RequestCourierRates) (*ResponseListRatesCouriers, *Error) {
+	var resp = &ResponseListRatesCouriers{}
+
 	validate = validator.New()
 	errValidate := validate.Struct(request)
 	if errValidate != nil {
-		return nil, ErrorRequestParam(errValidate)
+		return resp, ErrorRequestParam(errValidate)
 	}
 
-	var resp = &ResponseListRatesCouriers{}
 	var url = fmt.Sprintf("%s/v1/rates/couriers", bite.Config.BiteshipUrl)
 
 	var errMarshal error
@@ -35,7 +36,7 @@ func (bite *BiteshipImpl) GetRatesCouriers(request *RequestCourierRates) (*Respo
 
 	errRequest := bite.HttpRequest.Call(http.MethodPost, url, bite.Config.SecretKey, bytes.NewBuffer(jsonRequest), resp)
 	if errRequest != nil {
-		return nil, errRequest
+		return resp, errRequest
 	}
 
 	return resp, nil
