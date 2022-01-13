@@ -69,7 +69,7 @@ func main() {
 	//}
 	//resp, err := biteshipApp.CreateOrder(&req)
 
-	//	RETRIEVE ORDER
+	//	RETRIEVE AN ORDER
 	//resp, err := biteshipApp.RetrieveOrder("61dce8889a096b081e70198d")
 
 	//	UPDATE ORDER
