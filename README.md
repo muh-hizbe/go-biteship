@@ -14,10 +14,10 @@ For the API documentation, please get by contact Biteship or check at [biteship.
 
 ## Installation
 ```shell
-go get -u github.com/muh-hizbe/go-biteship
+go get -u github.com/muh-hizbe/biteship
 ```
 ```go
-import "github.com/muh-hizbe/go-biteship"
+import "github.com/muh-hizbe/biteship"
 ```
 
 ##  Usage
