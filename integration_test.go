@@ -9,6 +9,11 @@ import (
 const secretKey = "biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzLXBrZyIsInVzZXJJZCI6IjYxNjQzYmJiNzRkYWMxMzdjMDIyMjUxYyIsImlhdCI6MTY0MTc3OTY0Nn0.LA2Opjs1wNTHeSLDAZpD3W9CqMoMfZvAkOhvSYfIftk"
 const invalidSecretKey = "biteship_test.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzLXBrZyIsInVzZXJJZCI6IjYxNjQzYmJiNzRkYWMxMzdjMDIyMjUxYyIsImlhdCI6MTY0MTc3OTY0Nn0.LA2Opjs1wNTHeSLDAZpD3W9CqMoMfZvAkOhvSYfIftks"
 
+//	CHANGE ORDER ID BELOW WITH YOUR ORDER ID
+var orderIdConfirmed = "61E02D940904D76428ADA74E"
+var orderIdNotConfirmed = ""
+var orderIdCancelled = "61DBB6B1A4720916B2D1F576"
+
 //	TEST GET COURIER
 func TestGetCourier(t *testing.T) {
 	biteship := New(secretKey)
@@ -178,6 +183,7 @@ func TestCreateAnOrderDirectConfirm(t *testing.T) {
 	}
 
 	resp, _ := biteship.CreateOrder(&req)
+	orderIdConfirmed = resp.Id
 	assert.Equal(t, resp.Success, true)
 	assert.Equal(t, resp.Message, "Order successfully created")
 	assert.Equal(t, resp.Object, "order")
@@ -230,7 +236,7 @@ func TestCreateAnOrderWithDeliveryLater(t *testing.T) {
 		CourierType:                   "reg",
 		CourierInsurance:              500000,
 		DeliveryType:                  "later", // later or now
-		DeliveryDate:                  "2022-01-14",
+		DeliveryDate:                  "2025-12-14",
 		DeliveryTime:                  "12:00",
 		OrderNote:                     "Please be carefull",
 		Metadata:                      nil,
@@ -238,6 +244,7 @@ func TestCreateAnOrderWithDeliveryLater(t *testing.T) {
 	}
 
 	resp, _ := biteship.CreateOrder(&req)
+	orderIdNotConfirmed = resp.Id
 	assert.Equal(t, resp.Success, true)
 	assert.Equal(t, resp.Message, "Order successfully created")
 	assert.Equal(t, resp.Object, "order")
@@ -306,7 +313,7 @@ func TestCreateAnOrderWithInvalidSecretKey(t *testing.T) {
 func TestRetrieveOrder(t *testing.T) {
 	biteship := New(secretKey)
 
-	resp, _ := biteship.RetrieveOrder("61dce8889a096b081e70198d")
+	resp, _ := biteship.RetrieveOrder(orderIdConfirmed)
 	assert.Equal(t, resp.Success, true)
 	assert.Equal(t, resp.Object, "order")
 	assert.Equal(t, resp.Message, "Order successfully retrieved")
@@ -315,7 +322,7 @@ func TestRetrieveOrder(t *testing.T) {
 func TestRetrieveOrderWithInvalidKey(t *testing.T) {
 	biteship := New(invalidSecretKey)
 
-	resp, err := biteship.RetrieveOrder("61dce8889a096b081e70198d")
+	resp, err := biteship.RetrieveOrder(orderIdConfirmed)
 	assert.Equal(t, *resp, ResponseRetrieveOrder{})
 	assert.Equal(t, err.Status, 400)
 	assert.Equal(t, err.Code, 40000001)
@@ -337,7 +344,7 @@ func TestUpdateOrderBeforeConfirmed(t *testing.T) {
 		OriginAddress string `json:"origin_address"`
 	}{OriginAddress: "Jalan Perubahan nomor 5"}
 
-	resp, _ := biteship.UpdateOrder("61DFCB46F907782692A67632", requestUpdate)
+	resp, _ := biteship.UpdateOrder(orderIdNotConfirmed, requestUpdate)
 	assert.Equal(t, resp.Success, true)
 	assert.Equal(t, resp.Object, "order")
 	assert.Equal(t, resp.Message, "Order has been updated")
@@ -350,7 +357,7 @@ func TestUpdateOrderThatWasConfirmed(t *testing.T) {
 		OriginAddress string `json:"origin_address"`
 	}{OriginAddress: "Jalan Perubahan nomor 5"}
 
-	_, err := biteship.UpdateOrder("61DFC7DDFE92041E12E6713E", requestUpdate)
+	_, err := biteship.UpdateOrder(orderIdConfirmed, requestUpdate)
 	log.Println(err)
 	assert.Equal(t, err.Status, 400)
 	assert.Equal(t, err.Code, 40002044)
@@ -364,7 +371,7 @@ func TestUpdateOrderThatWasPassedTime(t *testing.T) {
 		OriginAddress string `json:"origin_address"`
 	}{OriginAddress: "Jalan Perubahan nomor 5"}
 
-	_, err := biteship.UpdateOrder("61DBB6B1A4720916B2D1F576", requestUpdate)
+	_, err := biteship.UpdateOrder(orderIdCancelled, requestUpdate)
 	log.Println(err)
 	assert.Equal(t, err.Status, 400)
 	assert.Equal(t, err.Code, 40002013)
@@ -372,14 +379,9 @@ func TestUpdateOrderThatWasPassedTime(t *testing.T) {
 }
 
 func TestConfirmOrder(t *testing.T) {
-	// Before running this test
-	// Please Create an order with DeliveryType "later"
-	// Then passing order id into below
 	biteship := New(secretKey)
 
-	resp, err := biteship.ConfirmOrder("61DFCB46F907782692A67632")
-	log.Println(resp)
-	log.Println(err)
+	resp, _ := biteship.ConfirmOrder(orderIdNotConfirmed)
 	assert.Equal(t, resp.Success, true)
 	assert.Equal(t, resp.Object, "order")
 	assert.Equal(t, resp.Status, "confirmed")
@@ -389,7 +391,7 @@ func TestConfirmOrder(t *testing.T) {
 func TestConfirmOrderThatWasBeenConfirmed(t *testing.T) {
 	biteship := New(secretKey)
 
-	_, err := biteship.ConfirmOrder("61DFC7DDFE92041E12E6713E")
+	_, err := biteship.ConfirmOrder(orderIdConfirmed)
 	assert.Equal(t, err.Status, 400)
 	assert.Equal(t, err.Code, 40002050)
 	assert.Equal(t, err.RawError, "Order has already been confirmed")
@@ -398,8 +400,38 @@ func TestConfirmOrderThatWasBeenConfirmed(t *testing.T) {
 func TestConfirmOrderThatWasBeenCancelled(t *testing.T) {
 	biteship := New(secretKey)
 
-	_, err := biteship.ConfirmOrder("61DBB6B1A4720916B2D1F576")
+	_, err := biteship.ConfirmOrder(orderIdCancelled)
 	assert.Equal(t, err.Status, 400)
 	assert.Equal(t, err.Code, 40002050)
 	assert.Equal(t, err.RawError, "Order has already been cancelled")
+}
+
+func TestCancelOrder(t *testing.T) {
+	biteship := New(secretKey)
+
+	reason := "Ingin mengganti kurir"
+
+	resp, err := biteship.CancelOrder(orderIdNotConfirmed, reason)
+	log.Println(err)
+	log.Println(resp)
+	assert.Equal(t, resp.Success, true)
+	assert.Equal(t, resp.Object, "order")
+	assert.Equal(t, resp.Status, "cancelled")
+	assert.Equal(t, resp.Id, orderIdNotConfirmed)
+	assert.Equal(t, resp.CancellationReason, reason)
+}
+
+func TestCancelOrderThatWasConfirmed(t *testing.T) {
+	biteship := New(secretKey)
+
+	reason := "Ingin mengganti kurir"
+
+	resp, err := biteship.CancelOrder(orderIdConfirmed, reason)
+	log.Println(err)
+	log.Println(resp)
+	assert.Equal(t, resp.Success, true)
+	assert.Equal(t, resp.Object, "order")
+	assert.Equal(t, resp.Status, "cancelled")
+	assert.Equal(t, resp.Id, orderIdConfirmed)
+	assert.Equal(t, resp.CancellationReason, reason)
 }
