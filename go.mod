@@ -1,4 +1,4 @@
-module github.com/muh-hizbe/biteship
+module github.com/muh-hizbe/go-biteship
 
 go 1.17
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/muh-hizbe/biteship"
+	"github.com/muh-hizbe/go-biteship"
 	"log"
 )
 
